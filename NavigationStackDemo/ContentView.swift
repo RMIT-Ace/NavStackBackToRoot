@@ -8,14 +8,47 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var isActive : Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            VStack {
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                Text("Hello, world!")
+                NavigationLink("A", isActive: $isActive) {
+                    AView(rootIsActive: $isActive)
+                }
+            }
+            .padding()
         }
-        .padding()
+    }
+}
+
+struct AView: View {
+    @Binding var rootIsActive : Bool
+    var body: some View {
+        NavigationLink("B") {
+            BView(rootIsActive: $rootIsActive)
+        }
+    }
+}
+
+struct BView: View {
+    @Binding var rootIsActive : Bool
+    var body: some View {
+        NavigationLink("C") {
+            CView(rootIsActive: $rootIsActive)
+        }
+    }
+}
+
+struct CView: View {
+    @Binding var rootIsActive : Bool
+    var body: some View {
+        Button("Front page") {
+            rootIsActive = false
+        }
     }
 }
 
